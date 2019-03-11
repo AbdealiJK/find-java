@@ -1,11 +1,6 @@
 #!/usr/bin/env python
 
-import sys
-
-from distutils.core import setup
-
-if any(arg.startswith('bdist') for arg in sys.argv):
-    import setuptools
+from setuptools import setup
 
 version_ns = {}
 with open('findjava.py') as f:
@@ -26,4 +21,7 @@ setup(
     author="AbdealiJK",
     author_email="abdealikothari@gmail.com",
     url="https://github.com/AbdealiJK/findjava",
+    entry_points={
+        'console_scripts': ['findjava = findjava:main'],
+    },
 )

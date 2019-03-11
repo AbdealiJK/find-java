@@ -100,3 +100,12 @@ def init(java_home=None):
 
     # ensure JAVA_HOME is defined
     os.environ['JAVA_HOME'] = java_home
+
+
+def main():
+    java_home = find()
+    print("JAVA_HOME detected at:", java_home)
+
+
+if __name__ == '__main__':
+    main()

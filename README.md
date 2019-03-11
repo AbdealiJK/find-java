@@ -7,6 +7,14 @@ numerous different ways you can install java.
 To find java, just call:
 
 ```python
-import findjava
-findjava.find()
+>>> import findjava
+>>> findjava.find()
+'/Library/Java/JavaVirtualMachines/jdk1.8.0_162.jdk/Contents/Home'
+```
+
+or directly in a shell run:
+
+```bash
+$ findjava
+JAVA_HOME detected at: /Library/Java/JavaVirtualMachines/jdk1.8.0_162.jdk/Contents/Home
 ```
