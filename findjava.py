@@ -8,7 +8,7 @@ Otherwise, common locations for java will be searched.
 import os
 import subprocess
 
-__version__ = '1.0.0.dev1'
+__version__ = '0.1'
 
 
 def _find_with_exec_java_home():
