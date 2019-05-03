@@ -58,6 +58,21 @@ def _find_with_bin_java():
     return out_paths
 
 
+def _get_valid_java_homes():
+    possible_paths = ([
+        '/etc/alternatives/java_sdk',  # yum in CentoOS for OpenJDK
+        '/usr/java/default/'  # Oracle installer in CentoOS
+        # Any other common places to look?
+    ]
+     + _find_with_exec_java_home()  # OS X
+     + _find_with_bin_javac()  # If the PATH is set right
+     + _find_with_bin_java()  # If the PATH is set right
+    )
+    for path in possible_paths:
+        if os.path.exists(path):
+            yield path
+
+
 def find():
     """
     Find a java installation on the current computer.
@@ -67,20 +82,15 @@ def find():
     """
     java_home = os.environ.get('JAVA_HOME', None)
 
-    if not java_home:
-        possible_paths = ([
-            '/etc/alternatives/java_sdk',  # yum in CentoOS for OpenJDK
-            '/usr/java/default/'  # Oracle installer in CentoOS
-            # Any other common places to look?
-        ]
-         + _find_with_exec_java_home()  # OS X
-         + _find_with_bin_javac()  # If the PATH is set right
-         + _find_with_bin_java()  # If the PATH is set right
-        )
-        for path in possible_paths:
-            if os.path.exists(path):
-                java_home = path
-                break
+    # FIXME: Need to improve logic of which java-home to get here.
+    #        The possible combinations are:
+    #        - User wants the "Default" java in the system
+    #        - User wants the "Latest" java in the system
+    #        - User wants the "Default" java with JDK/javac in the system
+    #        - User wants the "Latest" java with JDK/javac in the system
+    for valid_java_home in _get_valid_java_homes():
+        java_home = valid_java_home
+        break
 
     if not java_home:
         raise ValueError(
@@ -95,7 +105,6 @@ def init(java_home=None):
     :param java_home: str, optional, default = None
         Path to Java installation, check in default locations if not found.
     """
-
     if not java_home:
         java_home = find()
 
