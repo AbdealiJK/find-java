@@ -4,6 +4,7 @@ Find JAVA_HOME, and initialize by adding java_home to the os.envrion.
 If JAVA_HOME is defined, validate that it is correct.
 Otherwise, common locations for java will be searched.
 """
+from __future__ import print_function
 
 import os
 import subprocess
