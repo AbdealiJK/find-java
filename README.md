@@ -4,6 +4,13 @@ Finding Java can be a big issue sometimes. Figuring out which java installations
 are present and identifying which one to use is not a trivial task with the
 numerous different ways you can install java.
 
+## Install
+```bash
+pip install findjava
+```
+
+## Usage
+
 To find java, just call:
 
 ```python
