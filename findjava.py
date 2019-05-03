@@ -58,7 +58,7 @@ def _find_with_bin_java():
     return out_paths
 
 
-def _get_valid_java_homes():
+def _get_valid_java_homes_info():
     possible_paths = ([
         '/etc/alternatives/java_sdk',  # yum in CentoOS for OpenJDK
         '/usr/java/default/'  # Oracle installer in CentoOS
@@ -68,9 +68,16 @@ def _get_valid_java_homes():
      + _find_with_bin_javac()  # If the PATH is set right
      + _find_with_bin_java()  # If the PATH is set right
     )
+
+    def _get_pathinfo(path):
+        if not os.path.exists(path):
+            return None
+        return {'path': path}
+
     for path in possible_paths:
-        if os.path.exists(path):
-            yield path
+        path_info = _get_pathinfo(path)
+        if path_info:
+            yield path_info
 
 
 def find():
@@ -88,8 +95,8 @@ def find():
     #        - User wants the "Latest" java in the system
     #        - User wants the "Default" java with JDK/javac in the system
     #        - User wants the "Latest" java with JDK/javac in the system
-    for valid_java_home in _get_valid_java_homes():
-        java_home = valid_java_home
+    for java_home_info in _get_valid_java_homes_info():
+        java_home = java_home_info['path']
         break
 
     if not java_home:
